@@ -8,9 +8,8 @@ public class HouseState : MonoBehaviour
     [HideInInspector]
     public List<GameObject> itemsToLvl = new List<GameObject>();
     public int level = 1;
-    private int score = 1;
 
-    void Start()
+    private void Awake()
     {
         level = 1;
         RequiredItem(level);

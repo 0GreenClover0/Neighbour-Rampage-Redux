@@ -9,14 +9,13 @@ public class UI : MonoBehaviour
     private List<GameObject> lastNeeded;
     [SerializeField]
     private SpriteRenderer spriteSpace;
-
-    bool alreadySet = false;
     
     void Start()
     {
         if (tag == "Player 1_HUD") itemsNeeded = GameObject.FindGameObjectWithTag("House1").GetComponent<HouseState>().itemsToLvl;
         if (tag == "Player 2_HUD") itemsNeeded = GameObject.FindGameObjectWithTag("House2").GetComponent<HouseState>().itemsToLvl;
         lastNeeded = itemsNeeded;
+        setSprites();
     }
 
     void Update()
@@ -26,25 +25,27 @@ public class UI : MonoBehaviour
         if (itemsNeeded != lastNeeded)
         {
             Debug.Log("LIST CHANGED");
-            lastNeeded = itemsNeeded;
-            //setSprites();
+            lastNeeded = itemsNeeded; 
         }
     }
     void setSprites()
     {
-        spriteSpace.sprite = itemsNeeded.FirstOrDefault().GetComponent<SpriteRenderer>().sprite;
+        if (itemsNeeded.Count != 0)
+            spriteSpace.sprite = itemsNeeded[0].GetComponent<SpriteRenderer>().sprite;
     }
 
     void UpdateNeededItems()
     {
         if (tag == "Player 1_HUD" && GameObject.FindGameObjectWithTag("House1").GetComponent<HouseState>().itemsToLvl != itemsNeeded)
         {
-            itemsNeeded = GameObject.FindGameObjectWithTag("House1").GetComponent<HouseState>().itemsToLvl;
+            if (GameObject.FindGameObjectWithTag("House1").GetComponent<HouseState>().itemsToLvl.Count != 0)
+                itemsNeeded = GameObject.FindGameObjectWithTag("House1").GetComponent<HouseState>().itemsToLvl;
         }
 
         if (tag == "Player 2_HUD" && GameObject.FindGameObjectWithTag("House2").GetComponent<HouseState>().itemsToLvl != itemsNeeded)
         {
-            itemsNeeded = GameObject.FindGameObjectWithTag("House2").GetComponent<HouseState>().itemsToLvl;
+            if(GameObject.FindGameObjectWithTag("House2").GetComponent<HouseState>().itemsToLvl.Count != 0)
+                itemsNeeded = GameObject.FindGameObjectWithTag("House2").GetComponent<HouseState>().itemsToLvl;
         }
     }
 }
